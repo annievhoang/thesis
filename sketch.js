@@ -7,12 +7,16 @@ let markov;
 let source;
 let displayText = [""];
 
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+
 function preload() {
   source = loadStrings('source.txt');
 }
 
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(w, h);
   background(0, 0, 0);
   fill(0);
   textSize(18)
@@ -27,6 +31,7 @@ function setup() {
   // load text into the model
   markov.addText(source.join(' '));
   drawText();
+
 }
 
 function drawText() {
@@ -39,4 +44,11 @@ function drawText() {
 function generateText() {
   displayText = markov.generate(numSentences);
   drawText();
+}
+
+window.onresize = function() {
+
+  w = window.innerWidth;
+  h = window.innerHeight;
+  canvas.size(w,h);
 }
