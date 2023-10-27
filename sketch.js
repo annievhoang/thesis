@@ -17,7 +17,7 @@ function preload() {
 
 function setup() {
   createCanvas(w, h);
-  background(0, 0, 0);
+  background(0, 82, 0);
   fill(0);
   textSize(18)
   let inp = createInput(questionText);
@@ -35,7 +35,6 @@ function setup() {
 }
 
 function drawText() {
-  background(0, 82, 0);
   text(displayText.join(' '), x, y, 800, 440);
   textSize(30);
   fill(255, 255, 255);
