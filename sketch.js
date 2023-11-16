@@ -9,45 +9,60 @@ let displayText = [""];
 
 var w = window.innerWidth;
 var h = window.innerHeight;
-
+let fontSize = 30;
+let incrementValue = 0.40
+let counter = 1;
 
 function preload() {
   source = loadStrings('source.txt');
 }
 
 function setup() {
-  createCanvas(w, h);
+  createCanvas(windowWidth, windowHeight);
   background(0, 82, 0);
-  fill(0);
-  textSize(18)
-  let inp = createInput(questionText);
-  inp.position(50, 450);
-  inp.size(200);
-  button = createButton('submit');
-  button.position(250, 450);
-  button.mousePressed(generateText);
-  // create a markov model w' n=4
   markov = RiTa.markov(n);
   // load text into the model
   markov.addText(source.join(' '));
-  drawText();
+}
 
+function draw(){
+  fill(0);
+  textSize(18)
+  button = createButton('plant here');
+  button.position(50,  windowHeight-100);
+  button.style('font-size', '50px', 'color', '#ffffff');
+  button.mousePressed(generateText);
+
+  if(counter >= 6){
+    button = createButton('reset');
+    button.position(windowWidth-100,  windowHeight-100);
+    button.style('font-size', '20px', 'color', '#ffffff');
+    button.mousePressed(reset);
+  }
+
+  // create a markov model w' n=4
 }
 
 function drawText() {
-  text(displayText.join(' '), x, y, 800, 440);
-  textSize(30);
   fill(255, 255, 255);
+  textSize(fontSize*(counter*incrementValue));
+  text(displayText.join(' '), 0, 0, windowWidth + 300, windowHeight);
 }
 
 function generateText() {
   displayText = markov.generate(numSentences);
+  counter++;
   drawText();
 }
 
-window.onresize = function() {
+function reset() {
+  clear();
+  background(0, 82, 0);
+  fontSize = 30;
+  incrementValue = 0.5
+  counter = 1;
+}
 
-  w = window.innerWidth;
-  h = window.innerHeight;
-  canvas.size(w,h);
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
