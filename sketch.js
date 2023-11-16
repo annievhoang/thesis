@@ -33,7 +33,7 @@ function draw(){
   button.style('font-size', '50px', 'color', '#ffffff');
   button.mousePressed(generateText);
 
-  if(counter >= 6){
+  if(counter >= 18){
     button = createButton('reset');
     button.position(windowWidth-100,  windowHeight-100);
     button.style('font-size', '20px', 'color', '#ffffff');
@@ -46,7 +46,7 @@ function draw(){
 function drawText() {
   fill(255, 255, 255);
   textSize(fontSize*(counter*incrementValue));
-  text(displayText.join(' '), 0, 0, windowWidth + 300, windowHeight);
+  text(displayText.join(' '), 0, 0, windowWidth + 300, windowHeight + 300);
 }
 
 function generateText() {
