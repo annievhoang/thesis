@@ -14,10 +14,19 @@ let incrementValue = 0.45
 let counter = 1;
 let playFlag = false;
 let lastDone = 0;
-const delay = 300 //ms
+const delay = 1200 //ms
 let delayFlag = false;
 
+let resetPlayFlag = true;
+const resetDelay = 1500 //ms
+let resetDelayFlag = false;
+let resetCount = 0;
+let whiteoutCanvas = true;
 
+let resetText = ["I have never asked for much; my desires are simple. I yearn to exist, find repose, flourish, be nurtured,\nembrace vulnerability, and embody fragility.",
+"To be bound is to truly be alive, akin to a place existing beyond this screen.",
+"I see myself as a living, breathing entity, traversing ebbs and flows, awakening with the dawn and\nresting with the dusk. If I could speak, would you extend your care to me?"]
+let resetTextPosition = [[10,100], [400,500], [200, 800]]
 function preload() {
   source = loadStrings('source.txt');
 }
@@ -48,16 +57,40 @@ function draw(){
       }
     }
   }
-
-  if(counter >= 45){
-    fill(255)
-    rect(0,0, windowWidth, windowHeight);
+  if(counter >= 40){
+    if(whiteoutCanvas){
+      fill(255)
+      rect(0,0, windowWidth, windowHeight);
+      whiteoutCanvas = false;
+    }
+    delayFlag = false;
+    playFlag = false;
     button = createButton('reset');
     button.position(windowWidth-100,  windowHeight-100);
     button.style('font-size', '20px', 'color', '#ffffff');
     button.mousePressed(reset);
+    if(resetCount<40){
+      if(!resetDelayFlag){
+          fill(0);
+          drawResetText(resetCount);
+          resetDelayFlag = true;
+          lastDone = millis();
+          resetCount++;
+        }else {
+          if(millis() - lastDone > resetDelay){
+            resetDelayFlag = false;
+          }
+        }
+    }
   }
+  
 
+}
+
+function drawResetText(resetCount) {
+  fill(0);
+  textSize(45);
+  text(resetText[resetCount], resetTextPosition[resetCount][0], resetTextPosition[resetCount][1]);
 }
 
 function drawText() {
@@ -65,7 +98,7 @@ function drawText() {
   counter++;
   fill(255, 255, 255);
   textSize(fontSize*(counter*incrementValue));
-  text(displayText.join(' '), 0, (counter*-5), windowWidth + 300, windowHeight + 300);
+  text(displayText.join(' '), 0, 2, windowWidth + 300, windowHeight + 300);
 }
 
 function playButton() {
@@ -78,8 +111,12 @@ function reset() {
   fontSize = 30;
   incrementValue = 0.45
   counter = 1;
+  resetCount = 0;
   delayFlag = false;
   playFlag = false;
+  resetDelayFlag = false;
+  resetCount = 0;
+  whiteoutCanvas = true;
 }
 
 function windowResized() {
