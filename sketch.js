@@ -72,7 +72,9 @@ function draw(){
     if(resetCount<40){
       if(!resetDelayFlag){
           fill(0);
-          drawResetText(resetCount);
+          if(resetCount>0 && resetCount<4){
+            drawResetText(resetCount-1);
+          }
           resetDelayFlag = true;
           lastDone = millis();
           resetCount++;
@@ -98,7 +100,7 @@ function drawText() {
   counter++;
   fill(255, 255, 255);
   textSize(fontSize*(counter*incrementValue));
-  text(displayText.join(' '), 0, 2, windowWidth + 300, windowHeight + 300);
+  text(displayText.join(' '), 0, (-3*(counter))+2, windowWidth + 300, windowHeight + 300);
 }
 
 function playButton() {
